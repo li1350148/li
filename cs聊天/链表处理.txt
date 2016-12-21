@@ -1,0 +1,125 @@
+package test;
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.*;
+import java.net.*;
+import java.io.*;
+class ListSocket implements Serializable{
+    ListSocket next;
+    int id;
+    int key;
+    String name;
+    Socket s;
+    public void setid(int id){
+        this.id=id;
+    }
+    public void setkey(int key){
+        this.key=key;
+    }
+    public void setSocket(Socket s){
+        this.s=s;
+    }
+    public void setnext(ListSocket next){
+        this.next=next;
+    }
+    public void setname(String name){
+    	this.name=name;
+    }
+    public int getid(){
+        return id;
+    }
+    public int getkey(){
+        return key;
+    }
+    public Socket getSocket(){
+        return s;
+    }
+    public ListSocket getnext(){
+        return next;
+    }
+    public String getname(){
+    	return name;
+    }
+    public void add(ListSocket first,ListSocket next){//添加结点到链尾
+    	ListSocket p;
+    	p=first;
+    	while(p.next!=null){
+    		p=p.next;
+    	}
+    	p.next=next;
+    }
+    public void delete(ListSocket first,ListSocket next){//删除链表
+    	ListSocket p;//指向上一节点
+    	p=first;
+    	while(p!=null){
+    		if(p.next==next){
+    			p.next=next.next;
+    			break;
+    		}
+    		p=p.next;
+    	}
+    }
+}
+public class test
+{
+	public static void main(String args[]) throws IOException{
+		ListSocket first=new ListSocket();
+		ListSocket p,q;
+		/*ListSocket p1=new ListSocket();
+		ListSocket p2=new ListSocket();
+		ListSocket p3=new ListSocket();
+		ListSocket p4=new ListSocket();
+		p1.setid(10);
+		p2.setid(20);
+		p3.setid(30);
+		p4.setid(40);
+		first.add(first, p1);
+		first.add(first, p2);
+		first.add(first, p3);
+		first.add(first, p4);
+		q=first.next;
+		while(q!=null){
+			System.out.println(q.getid());
+			q=q.next;
+		}
+		p=first.next;
+		File file=new File("E:\\dat.txt");
+		FileOutputStream fileIn=new FileOutputStream(file);
+		ObjectOutputStream objectOut=new ObjectOutputStream(fileIn);
+		while(p!=null){//结尾判断
+			q=p.next;
+			p.next=null;
+			objectOut.writeObject(p);
+			p.next=q;
+			p=p.next;
+			//p=p.next;
+		}*/
+		
+		File file=new File("E:\\dat.txt");
+		FileInputStream fileIn=new FileInputStream(file);
+		ObjectInputStream objectOut=new ObjectInputStream(fileIn);
+		while(true){//结尾判断
+			p=new ListSocket();
+			try {
+				p=(ListSocket) objectOut.readObject();
+				
+			} catch (EOFException  e) {
+				break;//读取结束 发生异常 退出循环
+			}
+			catch (ClassNotFoundException e) {
+				// TODO 自动生成的 catch 块
+				System.out.println("么么哒");
+				e.printStackTrace();
+			}
+			
+			first.add(first, p);
+
+		}
+		objectOut.close();
+		q=first.next;
+		while(q!=null){
+			System.out.println(q.getid());
+			q=q.next;
+		}
+	}
+}
