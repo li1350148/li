@@ -232,4 +232,4 @@ public class test
 		}
 		//new start(first).word();
 	}
-}//123
+}//123À±¼¦
